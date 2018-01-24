@@ -31,23 +31,17 @@ export default class ExamViewPager extends Component {
     }
 
     _onSelect(index) {
-        this.setState(() => {
-            return {index: index};
-        });
         this.viewPager.setPage(index)
+        this.setState({
+            index: index
+        });
     }
 
-    _onPageSelected(event){
-        var page = event.nativeEvent.position;
-        console.log(this)
-        console.log("_onPageSelected");
-        console.log("_onPageSelected___");
+    _onPageSelected(event) {
+        const page = event.nativeEvent.position;
         this.setState({
-            index :page
+            index: page
         });
-
-
-
     }
 
 
@@ -98,9 +92,11 @@ export default class ExamViewPager extends Component {
                 <View style={styles.indicator} marginLeft={this.state.index * screenWidth / 3}/>
                 <ViewPagerAndroid
                     style={styles.pageStyle}
-                    initialPage={this.state.index}
-                    onPageSelected ={(e)=>this._onPageSelected(e)}
-                    ref={viewPager => { this.viewPager = viewPager}}>
+                    initialPage={0}
+                    onPageSelected={(e) => this._onPageSelected(e)}
+                    ref={viewPager => {
+                        this.viewPager = viewPager
+                    }}>
                     <View>
                         <ExamScheduleView/>
                     </View>
