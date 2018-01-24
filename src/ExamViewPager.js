@@ -61,7 +61,7 @@ export default class ExamViewPager extends Component {
                     <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(0)}>
                         <View style={styles.tabTextContainer}>
 
-                            <Text style={styles.tabText}>
+                            <Text style={this.state.index === 0 ? styles.tabSelectedText : styles.tabText}>
                                 期末成绩
                             </Text>
                         </View>
@@ -71,7 +71,7 @@ export default class ExamViewPager extends Component {
                     <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(1)}>
                         <View style={styles.tabTextContainer}>
 
-                            <Text style={styles.tabText}>
+                            <Text style={this.state.index === 1 ? styles.tabSelectedText : styles.tabText}>
                                 考试安排
                             </Text>
                         </View>
@@ -80,7 +80,7 @@ export default class ExamViewPager extends Component {
 
                     <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(2)}>
                         <View style={styles.tabTextContainer}>
-                            <Text style={styles.tabText}>
+                            <Text style={this.state.index === 2 ? styles.tabSelectedText : styles.tabText}>
                                 补考安排
                             </Text>
                         </View>
@@ -198,6 +198,11 @@ const styles = StyleSheet.create({
     tabText: {
         fontSize: 18,
         color: "#666666"
+    },
+    tabSelectedText: {
+        fontSize: 18,
+        color: "#333333"
+
     },
     // textContainer: {
     //     flex:1,
