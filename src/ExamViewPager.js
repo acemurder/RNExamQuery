@@ -9,27 +9,98 @@ import {
     Picker,
     ViewPagerAndroid,
     ToolbarAndroid,
-    StatusBar
+    StatusBar,
+    TouchableNativeFeedback,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 import ExamScheduleView from "./ExamScheduleView";
 
 import LinearGradient from 'react-native-linear-gradient';
 
+var Dimensions = require('Dimensions');
+var screenWidth = Dimensions.get('window').width;
+var screenHeight = Dimensions.get('window').height;
 
 export default class ExamViewPager extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            index: 0
+        }
+    }
+
+    _onSelect(index) {
+        this.setState(() => {
+            return {index: index};
+        });
+        this.viewPager.setPage(index)
+    }
+
+    _onPageSelected(event){
+        var page = event.nativeEvent.position;
+        console.log(this)
+        console.log("_onPageSelected");
+        console.log("_onPageSelected___");
+        this.setState({
+            index :page
+        });
+
+
+
+    }
+
+
     render() {
         return (
             <View style={styles.back}>
                 <StatusBar
                     translucent={true}
-                    animated={true}    />
+                    animated={true}/>
                 <LinearGradient colors={['#798DFA', '#58B1FC']} style={styles.linearGradient}>
                     <Text style={styles.buttonText}>
                         考试与成绩
                     </Text>
                 </LinearGradient>
-                <ViewPagerAndroid style={styles.pageStyle} initialPage={0}>
+
+                <View style={styles.tabLayout}>
+                    <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(0)}>
+                        <View style={styles.tabTextContainer}>
+
+                            <Text style={styles.tabText}>
+                                期末成绩
+                            </Text>
+                        </View>
+
+                    </TouchableWithoutFeedback>
+
+                    <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(1)}>
+                        <View style={styles.tabTextContainer}>
+
+                            <Text style={styles.tabText}>
+                                考试安排
+                            </Text>
+                        </View>
+
+                    </TouchableWithoutFeedback>
+
+                    <TouchableWithoutFeedback style={styles.tabTextContainer} onPress={() => this._onSelect(2)}>
+                        <View style={styles.tabTextContainer}>
+                            <Text style={styles.tabText}>
+                                补考安排
+                            </Text>
+                        </View>
+
+                    </TouchableWithoutFeedback>
+
+
+                </View>
+                <View style={styles.indicator} marginLeft={this.state.index * screenWidth / 3}/>
+                <ViewPagerAndroid
+                    style={styles.pageStyle}
+                    initialPage={this.state.index}
+                    onPageSelected ={(e)=>this._onPageSelected(e)}
+                    ref={viewPager => { this.viewPager = viewPager}}>
                     <View>
                         <ExamScheduleView/>
                     </View>
@@ -47,13 +118,13 @@ export default class ExamViewPager extends Component {
 
 const styles = StyleSheet.create({
     linearGradient: {
-        height: 68,
+        height: 78,
         paddingTop: 20
     },
     buttonText: {
         fontSize: 18,
         textAlign: 'center',
-        margin: 10,
+        margin: 20,
         color: '#ffffff',
         backgroundColor: 'transparent',
     },
@@ -64,6 +135,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: 1280,
     },
+
     style_bottom: {
         flex: 1,
         flexDirection: 'row',//代表一行
@@ -113,7 +185,42 @@ const styles = StyleSheet.create({
     },
     back: {
         flex: 1,
-        flexDirection: "column"
+        flexDirection: "column",
+        marginBottom: 40
+    },
+
+    tabLayout: {
+        flexDirection: "row",
+        height: 48,
+        elevation: 200,
+        shadowOffset: {width: 0, height: 0},
+        shadowColor: 'black',
+        shadowOpacity: 1,
+        shadowRadius: 5
+
+    },
+    tabText: {
+        fontSize: 18,
+        color: "#666666"
+    },
+    // textContainer: {
+    //     flex:1,
+    //     justifyContent: 'center',
+    //     alignItems:'center',
+    //     height:48,
+    //     flexDirection:"row"
+    // },
+    tabTextContainer: {
+        flex: 1,
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    indicator: {
+        width: screenWidth / 3,
+        height: 2,
+        backgroundColor: "#9BC5FF",
     }
+
 
 });
